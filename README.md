@@ -7,6 +7,7 @@ ROBOCON 视觉相关代码仓库。
 仓库已初始化，代码待补充。
 
 ## 仓库骨架
+```
 robocon-vision/
 ├── README.md
 ├── .gitignore
@@ -21,3 +22,4 @@ robocon-vision/
 ├── tests/            # pytest
 ├── docs/             # 每日总结、notes、图
 └── tools/            # env_check.py 等
+```
