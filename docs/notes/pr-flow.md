@@ -32,7 +32,7 @@ PR（Pull Request）不是 git 命令，是 **GitHub 平台**的功能。含义�
 9. Releases → Draft a new release → 选 tag → Generate release notes → Publish
 ```
 
-## 4. 踩过的坑（2026-10-29）
+## 4. 踩过的坑（2026-10-27）
 
 | 坑 | 现象 | 根因 | 正确做法 |
 |---|---|---|---|

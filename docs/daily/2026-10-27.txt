@@ -1,0 +1,8 @@
+学习了在 vscode 和 AI 工具中进行 Git 管理，连接到 GitHub 远程仓库，
+并尝试走了一遍流程：：”改 README → 分支 → commit → PR → 自己 review 写 2 条意见 → 合并 → `tag v0.2.0` → Release notes“，
+中途出现问题，在 AI 的帮助下顺利解决了流程问题。
+还有给 vscode 接入 deepseek 。
+
+观看的教程：
+1.https://www.bilibili.com/video/BV1ySLc6QEcB/?spm_id_from=333.337.search-card.all.click&vd_source=92710d9b84b9dfcd204de25637c59b23
+2.https://www.bilibili.com/video/BV1NFNg6QEbt/?spm_id_from=333.337.search-card.all.click&vd_source=92710d9b84b9dfcd204de25637c59b23
