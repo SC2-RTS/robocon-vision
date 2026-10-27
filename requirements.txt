@@ -1,1 +1,19 @@
-None
+# ============================================================
+# 安装顺序很重要，不要用 pip install -r 一把梭（先 torch，后本文件）
+#
+# 1) 先装 GPU 版 torch —— PyPI 上的 torch 在 Windows 上是 CPU 版，必须走官方 cu128 源：
+#    python -m pip install --index-url https://download.pytorch.org/whl/cu128 torch==2.11.0 torchvision==0.26.0
+#
+# 2) 再装本文件：
+#    python -m pip install -r requirements.txt
+#
+# 3) 自检：
+#    python tools/env_check.py
+# ============================================================
+
+numpy==2.5.1
+opencv-python==5.0.0.93
+onnxruntime==1.30.0
+matplotlib==3.11.0
+ultralytics==8.4.190
+pytest>=8.0
