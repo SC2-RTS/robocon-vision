@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+.idea/
+.vscode/
+datasets/
+runs/
+weights/
+*.pt
+*.onnx
+*.engine
+*.mp4
+*.log
+.env
