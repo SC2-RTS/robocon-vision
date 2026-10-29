@@ -155,63 +155,45 @@ class LinkedListDeque:
 
 class RingBuffer:
     def __init__(self, capacity: int):
-        """
-        初始化环形缓冲区
-        :param capacity: 缓冲区的固定容量
-        """
         if capacity <= 0:
-            raise ValueError("缓冲区容量必须大于 0")
+            raise ValueError("容量必须大于 0")
         
         self.capacity = capacity
-        self.buffer = [None] * capacity  # 底层定长数组
-        self.head = 0                    # 读指针：指向最旧的数据
-        self.tail = 0                    # 写指针：指向下一个要写入的位置
-        self.size = 0                    # 当前缓冲区内的数据量
+        self.buffer = [None] * capacity  # 定长数组
+        self.head = 0                    # 读指针：永远指向最旧的数据
+        self.tail = 0                    # 写指针：永远指向下一个要写入的空位
+        self.size = 0                    # 当前有效数据量
 
     def write(self, data: Any) -> None:
-        """
-        写入数据（如果满了，自动覆盖最旧的数据）
-        """
+        """写入数据（满则覆盖最旧的）"""
         if self.size == self.capacity:
-            # 缓冲区已满，覆盖最旧的数据，读指针必须跟着往前移动一位
             self.head = (self.head + 1) % self.capacity
         else:
-            # 缓冲区未满，数据量增加
             self.size += 1
-            
-        # 写入数据，并移动写指针
+
         self.buffer[self.tail] = data
         self.tail = (self.tail + 1) % self.capacity
 
     def read(self) -> Any:
-        """
-        读取并移除最旧的数据（先进先出 FIFO）
-        """
+        """读取并移除最旧的数据"""
         if self.size == 0:
-            return None  # 或者抛出异常，这里选择返回 None
-        
-        # 取出数据
-        data = self.buffer[self.head]
-        self.buffer[self.head] = None  # 清除引用，帮助垃圾回收
-        # 移动读指针
+            return None
+
+        value = self.buffer[self.head]
+        self.buffer[self.head] = None
         self.head = (self.head + 1) % self.capacity
         self.size -= 1
-        
-        return data
+
+        return value
 
     def to_list(self) -> List[Any]:
-        """
-        按从旧到新的顺序，返回当前缓冲区内的所有有效数据
-        """
-        # 从 head 开始，依次取 size 个元素
+        """按从旧到新的顺序，返回当前缓冲区内的所有有效数据"""
         return [self.buffer[(self.head + i) % self.capacity] for i in range(self.size)]
 
-    def __len__(self) -> int:
-        """支持 len(rb) 语法"""
+    def __len__(self):
         return self.size
 
-    def __repr__(self) -> str:
-        """方便在控制台打印查看"""
+    def __repr__(self):
         return f"RingBuffer(capacity={self.capacity}, data={self.to_list()})"
 
 def test_queue():
@@ -232,42 +214,26 @@ def test_deque():
     print(deque.pop_last())
     print(deque.to_list())
 
-    # 测试
-    rb = RingBuffer(3)
-    rb.write('A')
-    rb.write('B')
-    rb.write('C')
-    print(rb.read())  # 输出 A
-    rb.write('D')     # 此时缓冲区里有 B, C，再写 D，刚好填满
-    rb.write('E')     # 缓冲区已满，覆盖最旧的 B。现在里面有 C, D, E
-    print(rb.read())  # 输出 C
-    print(rb.read())  # 输出 D
-
 def test_ring_buffer():
-    # 1. 初始化一个容量为 3 的环形缓冲区
     rb = RingBuffer(3)
 
-    # 2. 写入 3 个数据（刚好填满）
+    # 1. 测试定长与正常写入
     rb.write("A")
     rb.write("B")
+    print("1. 正常写入后:", rb.to_list())  # 输出: ['A', 'B']
+
+    # 2. 测试写满
     rb.write("C")
-    print("填满后:", rb.to_list())  # 输出: ['A', 'B', 'C']
+    print("2. 写满后:", rb.to_list())      # 输出: ['A', 'B', 'C']
 
-    # 3. 写入第 4 个数据（触发覆盖，最旧的 'A' 被挤掉）
+    # 3. 测试覆盖（满了再写，A被挤掉）
     rb.write("D")
-    print("覆盖后:", rb.to_list())  # 输出: ['B', 'C', 'D']
+    print("3. 覆盖后:", rb.to_list())      # 输出: ['B', 'C', 'D']
 
-    # 4. 读取一个数据（取出最旧的 'B'）
-    val = rb.read()
-    print(f"读出的数据: {val}")     # 输出: B
-    print("读取后:", rb.to_list())  # 输出: ['C', 'D']
-
-    # 5. 再次写入两个数据（填满剩下的空间）
-    rb.write("E")
-    rb.write("F")
-    print("再次写入后:", rb.to_list())
-
-    print("底层数组实际状态:", rb.buffer) 
+    # 4. 测试读取与后续写入
+    rb.read()  # 读走 B
+    rb.write("E")  # 覆盖 C 的位置，逻辑上追加在 D 后面
+    print("4. 读取并写入后:", rb.to_list()) # 输出: ['C', 'D', 'E']
 
 if __name__ == "__main__":
     # test_queue()
