@@ -1,7 +1,4 @@
-try:  # 作为包的一部分被 import
-    from .linked_list import ListNode
-except ImportError:  # 直接运行本文件
-    from linked_list import ListNode
+from linked_list import ListNode
 
 class LinkedListStack:
     """基于链表实现的栈"""
@@ -28,29 +25,28 @@ class LinkedListStack:
 
     def pop(self) -> int:
         """出栈"""
-        num = self.peek()
+        value = self.peek()
         self._peek = self._peek.next
         self._size -= 1
 
-        return num
+        return value
 
     def peek(self) -> int:
         """访问栈顶元素"""
         if self.is_empty():
-            raise IndexError("栈为空")
+            raise IndexError('栈为空')
 
         return self._peek.value
 
     def to_list(self) -> list[int]:
         """转化为列表用于打印"""
-        arr = []
-        node = self._peek
-        while node:
-            arr.append(node.value)
-            node = node.next
+        aerr = []
+        temp = self._peek
+        while temp:
+            aerr.append(temp.value)
+            temp = temp.next
 
-        arr.reverse()
-        return arr
+        return aerr[::-1]
 
 if __name__ == "__main__":
     stack = LinkedListStack()

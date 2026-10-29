@@ -22,9 +22,8 @@ class LinkedListQueue:
         """入队"""
         node = ListNode(value)
 
-        if self._head is None:
-            self._head = node
-            self._tail = node
+        if self.is_empty():
+            self._head = self._tail = node
         else:
             self._tail.next = node
             self._tail = node
@@ -33,16 +32,16 @@ class LinkedListQueue:
 
     def pop(self) -> int:
         """出队"""
-        num = self.peek()
+        value = self.peek()
         self._head = self._head.next
         self._size -= 1
 
-        return num
+        return value
 
     def peek(self) -> int:
         """访问队头元素"""
         if self.is_empty():
-            raise IndexError('队列为空')
+            raise IndexError("队列为空")
 
         return self._head.value
 
@@ -101,25 +100,26 @@ class LinkedListDeque:
     def pop(self, is_front: bool) -> int:
         """出队"""
         if self.is_empty():
-            raise IndexError('双向队列为空')
+            raise IndexError('双端队列为空')
         elif self._size == 1:
-            num = self._head.value
+            value = self._head.value
             self._head = self._tail = None
         elif is_front:
-            num = self._head.value
+            value = self._head.value
             fnext = self._head.next
             fnext.prev = None
             self._head.next = None
             self._head = fnext
         else:
-            num = self._tail.value
-            tprev = self._tail.prev
-            tprev.next = None
+            value = self._tail.value
+            fprev = self._tail.prev
+            fprev.next = None
             self._tail.prev = None
-            self._tail = tprev
+            self._tail = fprev
 
         self._size -= 1
-        return num
+
+        return value
 
     def pop_first(self) -> int:
         """从队头出队"""
@@ -132,15 +132,15 @@ class LinkedListDeque:
     def peek_first(self) -> int:
         """访问队头元素"""
         if self.is_empty():
-            raise IndexError('双向队列为空')
-        
-        return self._head.value
+            raise IndexError('双端队列为空')
 
+        return self._head.value
+        
     def peek_last(self) -> int:
         """访问队尾元素"""
         if self.is_empty():
-            raise IndexError('双向队列为空')
-        
+            raise IndexError('双端队列为空')
+
         return self._tail.value
 
     def to_list(self) -> list[int]:
@@ -178,7 +178,7 @@ class RingBuffer:
         """读取并移除最旧的数据"""
         if self.size == 0:
             return None
-
+        
         value = self.buffer[self.head]
         self.buffer[self.head] = None
         self.head = (self.head + 1) % self.capacity

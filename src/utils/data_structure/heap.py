@@ -13,32 +13,32 @@ class MinHeap:
 
     def push(self, val: int):
         self.heap.append(val)
-        self._sift_up(len(self.heap) - 1)
+        self._sift_up(self.size() - 1)
 
     def _sift_up(self, index: int):
         while index > 0:
-            father = (index - 1) // 2
+            parents = (index - 1) // 2
 
-            if self.heap[index] < self.heap[father]:
-                self.heap[index], self.heap[father] = self.heap[father], self.heap[index]
-                index = father
+            if self.heap[index] < self.heap[parents]:
+                self.heap[index], self.heap[parents] = self.heap[parents], self.heap[index]
+                index = parents
             else:
                 break
 
     def pop(self) -> int:
         if not self.heap:
-            raise ValueError('堆没有值')
+            raise IndexError('堆为空')
         if self.size() == 1:
             return self.heap.pop()
 
-        value = self.heap[0]
+        value = self.peek()
         self.heap[0] = self.heap.pop()
         self._sift_down(0)
 
         return value
 
     def _sift_down(self, index: int):
-        n = len(self.heap)
+        n = self.size()
         while True:
             smallest = index
             left_child = 2 * index + 1
@@ -46,10 +46,8 @@ class MinHeap:
 
             if left_child < n and self.heap[left_child] < self.heap[smallest]:
                 smallest = left_child
-
             if right_child < n and self.heap[right_child] < self.heap[smallest]:
                 smallest = right_child
-
             if smallest == index:
                 break
 
