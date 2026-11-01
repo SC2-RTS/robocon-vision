@@ -1,0 +1,8 @@
+{
+  "median_k": 5,
+  "otsu_delta": 19,
+  "open_k": 5,
+  "close_k": 5,
+  "min_area": 6122.0,
+  "use_clahe": true
+}
