@@ -20,7 +20,10 @@ class Params:                      # 所有"你能调的"参数集中在这里
     otsu_delta: int = 0            # 在 Otsu 算出的阈值上 ±（0 表示完全用 Otsu）
     open_k: int = 0                # 开运算核，0=不做
     close_k: int = 0               # 闭运算核，0=不做
-    min_area: float = 17500.0
+    # 面积下限：碎点/反光 ≤200，最小目标 ≈17500。
+    # ⚠️ 别贴着 17500 设！实测设成 17500 时，视频里最小目标的面积在 17498~17510
+    # 之间波动（噪声 + mp4 压缩），会有 17/150 帧被筛掉。留 8 倍余量最稳。
+    min_area: float = 2000.0
     use_clahe: bool = False
 
 def find_targets(gray: np.ndarray, params: Params) -> tuple[list[dict], np.ndarray]:
