@@ -1,0 +1,38 @@
+source:
+  kind: video                  # image | video | camera
+  path: data/samples/wobble.mp4
+  step: 1                      # 跳帧：每 N 帧取 1（1 = 不跳）
+
+preprocess:
+  resize: 1.0                  # 0.5 = 半分辨率（快 4 倍，精度略降）
+  roi: null                    # [x, y, w, h] 或 null（null = 全图）
+
+detect:
+  params:                      # 直接对应 D5 的 Params，六个字段一个不少
+    median_k: 5
+    otsu_delta: 0
+    open_k: 0
+    close_k: 0
+    min_area: 2000
+    use_clahe: false
+
+smooth:
+  method: median               # none | median | ema
+  window: 5                    # median 用
+  ema_alpha: 0.4               # ema 用
+
+rank:
+  enable: false                # 多目标时只留前 N 个
+  key: area                    # area | conf
+  top_n: 3
+
+visualize:
+  show: true
+  save: null                   # 例：data/out/d6.mp4
+  draw_raw: true               # 红框：原始检测
+  draw_smoothed: true          # 绿框：平滑后
+  show_mask: false             # 是否再开一个 mask 窗口
+
+log:
+  level: INFO
+  fps_window: 30               # FPS 用最近多少帧的平均
