@@ -4,8 +4,8 @@ import cv2
 import matplotlib.pyplot as plt
 
 SRC = "data/samples/wobble.mp4"
-DST = "data/out/my_yolo_manual.mp4"
-model = YOLO("yolov8n.pt")
+DST = "data/out/leaf_trained.mp4"                        # 原来 my_yolo_manual.mp4
+model = YOLO("runs/detect/train-2/weights/best.pt")
 
 cap = cv2.VideoCapture(SRC)
 if cap.isOpened() == False:
@@ -26,17 +26,18 @@ while True:
         print('视频播放结束')
         break
 
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    median = cv2.medianBlur(gray, 5)
-    # hist = cv2.calcHist([median], [0], None, [256], [0, 256])
-    # plt.plot(hist)
-    # plt.xlim([0, 256])
-    # plt.xlabel("pixel value")
-    # plt.ylabel("count")
-    # plt.show()
-    ret, bw = cv2.threshold(median, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-    # print("Otsu 选的阈值:", ret)   # 47
-    result = model(bw, agnostic_nms=True, verbose=False, conf=0.20)[0]
+    # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    # median = cv2.medianBlur(gray, 5)
+    # # hist = cv2.calcHist([median], [0], None, [256], [0, 256])
+    # # plt.plot(hist)
+    # # plt.xlim([0, 256])
+    # # plt.xlabel("pixel value")
+    # # plt.ylabel("count")
+    # # plt.show()
+    # ret, bw = cv2.threshold(median, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    # # print("Otsu 选的阈值:", ret)   # 47
+    # ② 直接喂原始帧（不再走 gray/median/Otsu），conf 提到 0.5
+    result = model(frame, verbose=False, conf=0.5)[0]        # 原来是 model(bw, conf=0.20)
 
     index += 1
     for x1, y1, x2, y2, conf, cls in result.boxes.data.cpu().numpy():

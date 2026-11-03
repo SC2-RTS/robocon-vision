@@ -11,3 +11,7 @@ weights/
 *.mp4
 *.log
 .env
+
+# 视频抽帧（可从 data/samples/wobble.mp4 和 Second-level 素材重新生成，约 6MB）
+# 注意：不要用全局 *.jpg / *.png —— 那会把 docs/images 里的证据图全挡掉
+/data/real/
