@@ -11,6 +11,7 @@ def quick_start():
         epochs=100,
         imgsz=640,
         device="0",  # 第一块 CUDA GPU；使用 device="cpu" 在 CPU 上训练
+        name='train-coco8'
     )
 
     # 对源图像运行端到端无 NMS 推理
@@ -28,6 +29,6 @@ def model_training():
     results = model.train(data="datasets\leaves\data.yaml", epochs=50, device="0", name='yolo26n-leaves')
 
 if __name__ == "__main__":
-    # quick_start()
+    quick_start()
     # detect_oneself()
-    model_training()
+    # model_training()

@@ -196,6 +196,7 @@ class RingBuffer:
     def __repr__(self):
         return f"RingBuffer(capacity={self.capacity}, data={self.to_list()})"
 
+
 def test_queue():
     queue = LinkedListQueue()
     for i in range(10):

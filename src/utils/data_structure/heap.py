@@ -54,6 +54,7 @@ class MinHeap:
             self.heap[index], self.heap[smallest] = self.heap[smallest], self.heap[index]
             index = smallest
 
+
 if __name__ == "__main__":
     h = MinHeap()
     
